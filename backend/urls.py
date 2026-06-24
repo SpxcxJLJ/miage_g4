@@ -25,4 +25,6 @@ urlpatterns = [
 
     # Domaine F
     path('api/', include('rapports.urls')),
+    
+    path('', include('compositions.urls')),
 ]

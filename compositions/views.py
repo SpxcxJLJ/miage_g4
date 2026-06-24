@@ -4,6 +4,8 @@ from .serializers import CompositionSerializer, CompositionDetailSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from backend.api_clients import get_enseignants
+from django.shortcuts import render
+from .models import Composition
 
 
 class CompositionViewSet(viewsets.ModelViewSet):
@@ -14,7 +16,10 @@ class CompositionViewSet(viewsets.ModelViewSet):
 class CompositionDetailViewSet(viewsets.ModelViewSet):
     queryset = CompositionDetail.objects.all()
     serializer_class = CompositionDetailSerializer
-    
+
+def compositions_list(request):
+    compositions = Composition.objects.all()
+    return render(request, 'compositions/list.html', {'compositions': compositions})    
 
 
 @api_view(['GET'])
