@@ -27,4 +27,6 @@ urlpatterns = [
     path('api/', include('rapports.urls')),
     
     path('', include('compositions.urls')),
+    
+    path('', include('rapports.urls')),
 ]

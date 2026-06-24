@@ -7,6 +7,8 @@
 </head>
 <body class="container mt-4">
     <h1 class="mb-3">Liste des compositions</h1>
+    <a href="{% url 'composition_create' %}" class="btn btn-success mb-3">Créer une composition</a>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -22,7 +24,10 @@
                 <td>{{ compo.id }}</td>
                 <td>{{ compo.titre }}</td>
                 <td>{{ compo.date_creation }}</td>
-                <td><a href="#" class="btn btn-sm btn-primary">Voir</a></td>
+                <td>
+                    <a href="{% url 'composition_detail' compo.id %}" class="btn btn-sm btn-primary">Voir</a>
+                    <a href="{% url 'composition_update' compo.id %}" class="btn btn-sm btn-secondary">Modifier</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
