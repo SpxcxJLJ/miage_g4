@@ -1,14 +1,16 @@
 from rest_framework import viewsets
 from .models import Composition, CompositionDetail
-from .serializers import CompositionSerializer, CompositionDetailSerializer
+from .serializers import CompositionDetailSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from backend.api_clients import get_enseignants
 from django.shortcuts import render
 from .models import Composition
-from .forms import CompositionForm
+from .forms import CompositionDetailForm, CompositionForm
 from django.shortcuts import redirect
+from django.urls import path
 
+from .serializers import CompositionSerializer
 
 class CompositionViewSet(viewsets.ModelViewSet):
     queryset = Composition.objects.all()
@@ -16,8 +18,9 @@ class CompositionViewSet(viewsets.ModelViewSet):
 
 
 class CompositionDetailViewSet(viewsets.ModelViewSet):
-    queryset = CompositionDetail.objects.all()
+    queryset = CompositionDetail.objects.all().order_by('ordre')
     serializer_class = CompositionDetailSerializer
+
 
 def compositions_list(request):
     compositions = Composition.objects.all()
@@ -52,21 +55,26 @@ def composition_update(request, pk):
 
     return render(request, 'compositions/update.html', {'form': form})
 
+def composition_detail_create(request):
+    if request.method == 'POST':
+        form = CompositionDetailForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('compositions_list')
+    else:
+        form = CompositionDetailForm()
+
+    return render(request, 'compositions/detail_form.html', {'form': form})
+
 
 import requests
 
 def enseignants_list(request):
-    response = requests.get("URL_DE_TON_API")
+    response = requests.get("http://10.3.17.208:5000/enseignants")  #api de prisca
     enseignants = response.json()
     return render(request, 'compositions/enseignants.html', {'enseignants': enseignants})
 
 
 
-@api_view(['GET'])
-def enseignants_list(request):
-    try:
-        data = get_enseignants()
-        return Response(data)
-    except:
-        return Response({"error": "Impossible de récupérer les enseignants"}, status=500)
+
 

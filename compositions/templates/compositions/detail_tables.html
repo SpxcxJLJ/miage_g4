@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Détails de la composition</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Enseignant</th>
+            <th>Statut</th>
+            <th>Module</th>
+            <th>Semestre</th>
+            <th>H. Enseignement</th>
+            <th>H. GRETA</th>
+            <th>H. Service</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for d in details %}
+        <tr>
+            <td>{{ d.enseignant_nom }} {{ d.enseignant_prenom }}</td>
+            <td>{{ d.statut }}</td>
+            <td>{{ d.module }}</td>
+            <td>{{ d.semestre }}</td>
+            <td>{{ d.heures_enseignement }}</td>
+            <td>{{ d.heures_greta }}</td>
+            <td>{{ d.heures_service }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/', include('rapports.urls')),
     
     path('', include('compositions.urls')),
+    path('api/', include('compositions.api_urls')),  # pour l’API DRF
     
     path('', include('rapports.urls')),
 ]

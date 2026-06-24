@@ -16,11 +16,19 @@ class CompositionDetail(models.Model):
         on_delete=models.CASCADE,
         related_name="details"
     )
-    id_matiere = models.IntegerField()
-    id_enseignant = models.IntegerField()
-    coefficient = models.FloatField()
-    volume_horaire = models.FloatField()
+
+    enseignant_api_id = models.IntegerField()
+    matiere_api_id = models.IntegerField()
+
+    heures_enseignement = models.FloatField(default=0)
+    heures_greta = models.FloatField(default=0)
+    heures_service = models.FloatField(default=0)
+
     ordre = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['ordre']
+
 
     def __str__(self):
         return f"Détail {self.id} - {self.composition}"

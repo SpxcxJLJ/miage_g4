@@ -1,15 +1,33 @@
 import requests
 
-BASE_G2 = "http://10.3.17.208:5000/api"
+BASE_URL = "http://10.3.17.208:5000"
+
 
 def get_enseignants():
-    url = f"{BASE_G2}/enseignants"
-    response = requests.get(url, timeout=5)
+    response = requests.get(f"{BASE_URL}/enseignants")
     response.raise_for_status()
     return response.json()
 
-def get_enseignant(enseignant_id):
-    url = f"{BASE_G2}/enseignants/{enseignant_id}"
-    response = requests.get(url, timeout=5)
+
+def get_enseignant(id):
+    response = requests.get(
+        f"{BASE_URL}/enseignants/{id}"
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def get_matieres():
+    response = requests.get(
+        f"{BASE_URL}/matieres"
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def get_matieres_enseignant(id):
+    response = requests.get(
+        f"{BASE_URL}/enseignants/{id}/matieres"
+    )
     response.raise_for_status()
     return response.json()
