@@ -30,4 +30,7 @@ urlpatterns = [
     path('api/', include('compositions.api_urls')),  # pour l’API DRF
     
     path('', include('rapports.urls')),
+    path("rapports/", include("rapports.urls")),
+
+
 ]

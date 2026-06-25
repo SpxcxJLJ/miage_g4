@@ -19,7 +19,6 @@ class CompositionDetail(models.Model):
 
     enseignant_api_id = models.IntegerField()
     matiere_api_id = models.IntegerField()
-
     heures_enseignement = models.FloatField(default=0)
     heures_greta = models.FloatField(default=0)
     heures_service = models.FloatField(default=0)

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Rapport des matières</h1>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Code</th>
+            <th>Intitulé</th>
+            <th>Année universitaire</th>
+            <th>Volume horaire</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in matieres %}
+        <tr>
+            <td>{{ m.id }}</td>
+            <td>{{ m.code_matiere }}</td>
+            <td>{{ m.intitule }}</td>
+            <td>{{ m.annee_universitaire }}</td>
+            <td>{{ m.volume_horaire }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
