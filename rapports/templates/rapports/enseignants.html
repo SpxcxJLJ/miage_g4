@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Rapport des enseignants</h1>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Statut</th>
+            <th>Raison sociale</th>
+            <th>Ministère / Collectivité</th>
+            <th>Téléphone</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in enseignants %}
+        <tr>
+            <td>{{ e.id }}</td>
+            <td>{{ e.nom }}</td>
+            <td>{{ e.prenom }}</td>
+            <td>{{ e.email }}</td>
+            <td>{{ e.statut }}</td>
+            <td>{{ e.raison_sociale }}</td>
+            <td>{{ e.ministere_collectivite }}</td>
+            <td>{{ e.telephone }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
