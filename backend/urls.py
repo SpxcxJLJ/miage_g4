@@ -18,19 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
 
-    # Domaine E
-    path('api/', include('compositions.urls')),
+    path("", include("compositions.urls")),
 
-    # Domaine F
-    path('api/', include('rapports.urls')),
-    
-    path('', include('compositions.urls')),
-    path('api/', include('compositions.api_urls')),  # pour l’API DRF
-    
-    path('', include('rapports.urls')),
+    path("api/", include("compositions.api_urls")),
+
     path("rapports/", include("rapports.urls")),
-
-
 ]

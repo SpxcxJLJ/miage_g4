@@ -17,8 +17,46 @@ class CompositionDetail(models.Model):
         related_name="details"
     )
 
-    enseignant_api_id = models.IntegerField()
-    matiere_api_id = models.IntegerField()
+    # Données venant de l’API enseignants
+    enseignant_id = models.IntegerField(
+    null=True,
+    blank=True
+    )
+
+    enseignant_nom = models.CharField(
+    max_length=100,
+    blank=True,
+    null=True
+    )
+    enseignant_prenom = models.CharField(
+    max_length=100,
+    blank=True,
+    null=True
+    )
+    statut = models.CharField(max_length=100, null=True, blank=True)
+    raison_sociale = models.CharField(max_length=150, null=True, blank=True)
+    ministere_collectivite = models.CharField(max_length=150, null=True, blank=True)
+
+    # Données venant de l’API matières
+    matiere_id = models.IntegerField(
+    null=True,
+    blank=True
+    )
+
+    code_matiere = models.CharField(
+    max_length=20,
+    null=True,
+    blank=True
+    )
+    intitule_matiere = models.CharField(
+    max_length=150,
+    blank=True,
+    null=True
+    )
+    volume_horaire = models.FloatField(default=0)
+
+    # Données GRETA
+    semestre = models.CharField(max_length=10, null=True, blank=True)
     heures_enseignement = models.FloatField(default=0)
     heures_greta = models.FloatField(default=0)
     heures_service = models.FloatField(default=0)
@@ -26,7 +64,7 @@ class CompositionDetail(models.Model):
     ordre = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ['ordre']
+        ordering = ["ordre"]
 
 
     def __str__(self):

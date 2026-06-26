@@ -4,7 +4,7 @@ from .serializers import RapportEtudiantSerializer, RapportEnseignantSerializer
 from django.shortcuts import render
 from .presence_api import get_cours
 from .matieres_api import get_matieres
-from .enseignants_api import get_enseignants
+from backend.api_clients import get_enseignants
 class RapportEtudiantViewSet(viewsets.ModelViewSet):
     queryset = RapportEtudiant.objects.all()
     serializer_class = RapportEtudiantSerializer
