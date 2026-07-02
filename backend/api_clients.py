@@ -11,30 +11,9 @@ def get_enseignants():
 
     return r.json()
 
-
-def get_enseignant(id):
-
-    r = requests.get(f"{BASE_URL}/enseignants/{id}")
-
-    r.raise_for_status()
-
-    return r.json()
-
-
 def get_matieres():
 
     r = requests.get(f"{BASE_URL}/matieres")
-
-    r.raise_for_status()
-
-    return r.json()
-
-
-def get_matieres_enseignant(id):
-
-    r = requests.get(
-        f"{BASE_URL}/enseignants/{id}/matieres"
-    )
 
     r.raise_for_status()
 
@@ -44,3 +23,4 @@ def get_enseignements():
     r = requests.get(f"{BASE_URL}/enseigne")
     r.raise_for_status()
     return r.json()
+

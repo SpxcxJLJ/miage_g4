@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Composition, CompositionDetail
-from backend.api_clients import get_enseignant
+from backend.api_clients import get_enseignants
+
 
 from rest_framework import serializers
 from .models import CompositionDetail

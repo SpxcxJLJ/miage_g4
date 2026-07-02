@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Rapport des étudiants</h1>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>INE</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Sexe</th>
+            <th>Email Univ.</th>
+            <th>Téléphone</th>
+            <th>Date de naissance</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in etudiants %}
+        <tr>
+            <td>{{ e.INE }}</td>
+            <td>{{ e.Lname }}</td>
+            <td>{{ e.Fname }}</td>
+            <td>{{ e.Sexe }}</td>
+            <td>{{ e.univ_email }}</td>
+            <td>{{ e.PhoneNumber }}</td>
+            <td>{{ e.Birthdate }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'rapport_etudiants_pdf' %}" class="btn btn-danger">
+    Télécharger PDF
+</a>
+
+{% endblock %}

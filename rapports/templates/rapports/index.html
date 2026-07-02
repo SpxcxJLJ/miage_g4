@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h1>Centre des rapports</h1>
+
+<div class="list-group mt-4">
+
+<a href="{% url 'rapports_enseignants' %}"
+class="list-group-item list-group-item-action">
+
+👨‍🏫 Rapport enseignants
+
+</a>
+
+<a href="{% url 'rapports_matieres' %}"
+class="list-group-item list-group-item-action">
+
+📚 Rapport matières
+
+</a>
+
+<a href="{% url 'rapports_presence' %}"
+class="list-group-item list-group-item-action">
+
+📝 Rapport présences
+
+</a>
+
+<a href="{% url 'rapports_etudiants' %}"
+class="list-group-item list-group-item-action">
+
+🎓 Rapport étudiants
+
+</a>
+
+<a href="{% url 'rapports_classes' %}"
+class="list-group-item list-group-item-action">
+
+🏫 Rapport classes
+
+</a>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,16 +1,19 @@
 import requests
 
-BASE_URL = "https://si-presences-gbh.onrender.com/api"
+API_URL = "https://si-presences-gbh.onrender.com/api/presences/"
 
-def get_cours(date=None, classe=None, enseignant=None):
+def get_presences(cours=None, etudiant=None, statut=None):
     params = {}
 
-    if date:
-        params["date"] = date
-    if classe:
-        params["classe_id"] = classe
-    if enseignant:
-        params["enseignant_id"] = enseignant
+    if cours:
+        params["cours"] = cours
 
-    response = requests.get(f"{BASE_URL}/cours/", params=params)
+    if etudiant:
+        params["etudiant_id"] = etudiant
+
+    if statut:
+        params["statut"] = statut
+
+    response = requests.get(API_URL, params=params)
+    response.raise_for_status()
     return response.json()

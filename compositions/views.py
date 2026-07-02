@@ -17,9 +17,6 @@ from .serializers import CompositionDetailSerializer
 
 from backend.api_clients import (
     get_enseignants,
-    get_enseignant,
-    get_matieres,
-    get_enseignements,
 )
 class CompositionViewSet(viewsets.ModelViewSet):
     queryset = Composition.objects.all()
@@ -136,10 +133,6 @@ def composition_update(request, pk):
 
 import requests
 
-def enseignants_list(request):
-    response = requests.get("http://10.3.17.208:5000/enseignants")  #api de prisca
-    enseignants = response.json()
-    return render(request, 'compositions/enseignants.html', {'enseignants': enseignants})
 
 
 

@@ -18,3 +18,5 @@ class RapportEnseignant(models.Model):
 
     def __str__(self):
         return f"Rapport enseignant {self.id_enseignant}"
+
+
