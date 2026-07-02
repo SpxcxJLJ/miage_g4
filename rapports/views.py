@@ -41,7 +41,13 @@ def rapports_presence(request):
     data = get_presences(cours=cours, etudiant=etudiant, statut=statut)
     presences = data.get("results", [])
 
-    return render(request, "rapports/presences.html", {"presences": presences})
+    return render(request, "rapports/presences.html", {
+        "presences": presences,
+        "cours_filter": cours,
+        "etudiant_filter": etudiant,
+        "statut_filter": statut,
+    })
+
 
 
 def rapport_presences_pdf(request):
@@ -55,13 +61,13 @@ def rapport_presences_pdf(request):
     headers = ["ID", "Cours", "Étudiant", "Heure", "Statut", "Saisi par", "Date saisie"]
     rows = [
         [
-            p["id"],
-            p["cours"],
-            p["etudiant_id"],
-            p["heure_creneau"],
-            p["statut"],
-            p["saisi_par"],
-            p["date_saisie"]
+            p.get("id"),
+            p.get("cours"),
+            p.get("etudiant_id"),
+            p.get("heure_creneau"),
+            p.get("statut"),
+            p.get("saisi_par"),
+            p.get("date_saisie")
         ]
         for p in presences
     ]
@@ -71,6 +77,7 @@ def rapport_presences_pdf(request):
 
     generate_table_pdf(response, "Rapport des présences", headers, rows)
     return response
+
 #------------------------------------------------------------------------------------------------
 
 #Les cours-----------------perfect--------------------------
@@ -82,7 +89,12 @@ def rapports_cours(request):
     data = get_cours(date=date, enseignant=enseignant, classe=classe)
     cours = data.get("results", [])
 
-    return render(request, "rapports/cours.html", {"cours": cours})
+    return render(request, "rapports/cours.html", {
+        "cours": cours,
+        "date_filter": date,
+        "enseignant_filter": enseignant,
+        "classe_filter": classe,
+    })
 
 
 def rapport_cours_pdf(request):
@@ -96,14 +108,14 @@ def rapport_cours_pdf(request):
     headers = ["ID", "Date", "Début", "Fin", "Matière", "Enseignant", "Classe", "Salle"]
     rows = [
         [
-            c["id"],
-            c["date"],
-            c["heure_debut"],
-            c["heure_fin"],
-            c["matiere"],
-            c["enseignant"],
-            c["classe"],
-            c["salle"]
+            c.get("id"),
+            c.get("date"),
+            c.get("heure_debut"),
+            c.get("heure_fin"),
+            c.get("matiere", c.get("matiere_id", "")),
+            c.get("enseignant", c.get("enseignant_id", "")),
+            c.get("classe", c.get("classe_id", "")),
+            c.get("salle", "")
         ]
         for c in cours
     ]
@@ -115,15 +127,27 @@ def rapport_cours_pdf(request):
     return response
 
 
-
-
 #--------------------------------------------------------------
     
 
 #Enseignants------------------------perfect--------------------------------
 def rapports_enseignants(request):
+    nom = request.GET.get("nom")
+    statut = request.GET.get("statut")
+
     enseignants = get_enseignants()
-    return render(request, "rapports/enseignants.html", {"enseignants": enseignants})
+
+    if nom:
+        enseignants = [e for e in enseignants if nom.lower() in e["nom"].lower()]
+
+    if statut:
+        enseignants = [e for e in enseignants if statut.lower() in e["statut"].lower()]
+
+    return render(request, "rapports/enseignants.html", {
+        "enseignants": enseignants,
+        "nom_filter": nom,
+        "statut_filter": statut,
+    })
 
 def rapport_enseignants_pdf(request):
     enseignants = get_enseignants()
@@ -148,15 +172,45 @@ def rapport_enseignants_pdf(request):
 
 # Matières------------------------perfect--------------------------------
 def rapports_matieres(request):
+    code = request.GET.get("code")
+    annee = request.GET.get("annee")
+
     matieres = get_matieres()
-    return render(request, "rapports/matieres.html", {"matieres": matieres})
+
+    if code:
+        matieres = [m for m in matieres if code.lower() in m["code_matiere"].lower()]
+
+    if annee:
+        matieres = [m for m in matieres if annee == m["annee_universitaire"]]
+
+    return render(request, "rapports/matieres.html", {
+        "matieres": matieres,
+        "code_filter": code,
+        "annee_filter": annee,
+    })
+
 
 def rapport_matieres_pdf(request):
+    code = request.GET.get("code")
+    annee = request.GET.get("annee")
+
     matieres = get_matieres()
 
-    headers = ["Code", "Intitulé", "Année", "Volume"]
+    if code:
+        matieres = [m for m in matieres if code.lower() in m["code_matiere"].lower()]
+
+    if annee:
+        matieres = [m for m in matieres if str(m["annee_universitaire"]) == annee]
+
+    headers = ["ID", "Code", "Intitulé", "Année", "Volume"]
     rows = [
-        [m["code_matiere"], m["intitule"], m["annee_universitaire"], m["volume_horaire"]]
+        [
+            m.get("id"),
+            m.get("code_matiere"),
+            m.get("intitule"),
+            m.get("annee_universitaire"),
+            m.get("volume_horaire")
+        ]
         for m in matieres
     ]
 
@@ -166,31 +220,53 @@ def rapport_matieres_pdf(request):
     generate_table_pdf(response, "Rapport des matières", headers, rows)
     return response
 
+
 #------------------------------------------------------------------------------
 
 
 #etudiants------------------------perfect--------------------------------
 def rapports_etudiants(request):
+    ine = request.GET.get("ine")
+    sexe = request.GET.get("sexe")
+
     etudiants = get_students()
 
+    if ine:
+        etudiants = [e for e in etudiants if ine in e["INE"]]
+
+    if sexe:
+        etudiants = [e for e in etudiants if sexe == e["Sexe"]]
+
     return render(request, "rapports/students.html", {
-        "etudiants": etudiants
+        "etudiants": etudiants,
+        "ine_filter": ine,
+        "sexe_filter": sexe,
     })
 
 
+
 def rapport_etudiants_pdf(request):
+    ine = request.GET.get("ine")
+    sexe = request.GET.get("sexe")
+
     etudiants = get_students()
+
+    if ine:
+        etudiants = [e for e in etudiants if ine in e["INE"]]
+
+    if sexe:
+        etudiants = [e for e in etudiants if sexe == e["Sexe"]]
 
     headers = ["INE", "Nom", "Prénom", "Sexe", "Email Univ.", "Téléphone", "Naissance"]
     rows = [
         [
-            e["INE"],
-            e["Lname"],
-            e["Fname"],
-            e["Sexe"],
-            e["univ_email"],
-            e["PhoneNumber"],
-            e["Birthdate"]
+            e.get("INE"),
+            e.get("Lname"),
+            e.get("Fname"),
+            e.get("Sexe"),
+            e.get("univ_email"),
+            e.get("PhoneNumber"),
+            e.get("Birthdate")
         ]
         for e in etudiants
     ]
@@ -200,32 +276,57 @@ def rapport_etudiants_pdf(request):
 
     generate_table_pdf(response, "Rapport des étudiants", headers, rows)
     return response
+
 #------------------------------------------------------------------------------
 
 
 #classes------------------------perfect--------------------------------
 
 def rapports_classes(request):
+    niveau = request.GET.get("niveau")
+    programme = request.GET.get("programme")
+
     classes = get_classes()
 
+    if niveau:
+        classes = [c for c in classes if str(c["idLevel"]) == niveau]
+
+    if programme:
+        classes = [c for c in classes if programme.lower() in c["Curriculum"].lower()]
+
     return render(request, "rapports/classes.html", {
-        "classes": classes
+        "classes": classes,
+        "niveau_filter": niveau,
+        "programme_filter": programme,
     })
 
 
 def rapport_classes_pdf(request):
+    programme = request.GET.get("programme")
+    niveau = request.GET.get("niveau")
+    annee = request.GET.get("annee")
+
     classes = get_classes()
+
+    if programme:
+        classes = [c for c in classes if programme.lower() in c["Curriculum"].lower()]
+
+    if niveau:
+        classes = [c for c in classes if str(c["idLevel"]) == niveau]
+
+    if annee:
+        classes = [c for c in classes if str(c["StartYear"]) == annee]
 
     headers = ["ID Classe", "Nom", "Programme", "Niveau", "Début", "Fin", "Archive"]
     rows = [
         [
-            c["idClass"],
-            c["ClassName"],
-            c["Curriculum"],
-            c["idLevel"],
-            c["StartYear"],
-            c["EndYear"],
-            c["Archive"]
+            c.get("idClass"),
+            c.get("ClassName"),
+            c.get("Curriculum"),
+            c.get("idLevel"),
+            c.get("StartYear"),
+            c.get("EndYear"),
+            c.get("Archive")
         ]
         for c in classes
     ]
@@ -235,6 +336,7 @@ def rapport_classes_pdf(request):
 
     generate_table_pdf(response, "Rapport des classes", headers, rows)
     return response
+
 #------------------------------------------------------------------------------
 
 

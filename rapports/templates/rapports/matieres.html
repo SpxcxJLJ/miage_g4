@@ -1,11 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<a class="btn btn-secondary"
-   href="{% url 'rapports' %}">
-    ← Retour aux rapports
-</a>
 <h1>Rapport des matières</h1>
+
+<form method="GET" class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <input type="text" name="code" class="form-control"
+               placeholder="Code matière"
+               value="{{ code_filter }}">
+    </div>
+
+    <div class="col-md-4">
+        <input type="text" name="annee" class="form-control"
+               placeholder="Année universitaire"
+               value="{{ annee_filter }}">
+    </div>
+
+    <div class="col-md-4">
+        <button class="btn btn-primary w-100">Filtrer</button>
+    </div>
+
+</form>
 
 <table class="table table-striped table-bordered">
     <thead class="table-dark">
@@ -29,14 +45,10 @@
         {% endfor %}
     </tbody>
 </table>
-<a href="{% url 'rapport_matieres_pdf' %}" class="btn btn-danger">
+
+<a href="{% url 'rapport_matieres_pdf' %}?code={{ code_filter }}&annee={{ annee_filter }}"
+   class="btn btn-danger">
     Télécharger en PDF
 </a>
-
-<br><br>
-
-<table>
-...
-</table>
 
 {% endblock %}

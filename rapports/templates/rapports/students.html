@@ -3,6 +3,28 @@
 
 <h1>Rapport des étudiants</h1>
 
+<form method="GET" class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <input type="text" name="ine" class="form-control"
+               placeholder="INE"
+               value="{{ ine_filter }}">
+    </div>
+
+    <div class="col-md-3">
+        <select name="sexe" class="form-select">
+            <option value="">Sexe</option>
+            <option value="M" {% if sexe_filter == "M" %}selected{% endif %}>Homme</option>
+            <option value="F" {% if sexe_filter == "F" %}selected{% endif %}>Femme</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <button class="btn btn-primary w-100">Filtrer</button>
+    </div>
+
+</form>
+
 <table class="table table-striped table-bordered">
     <thead class="table-dark">
         <tr>
@@ -30,8 +52,10 @@
     </tbody>
 </table>
 
-<a href="{% url 'rapport_etudiants_pdf' %}" class="btn btn-danger">
+<a href="{% url 'rapport_etudiants_pdf' %}?ine={{ ine_filter }}&sexe={{ sexe_filter }}"
+   class="btn btn-danger">
     Télécharger PDF
 </a>
+
 
 {% endblock %}

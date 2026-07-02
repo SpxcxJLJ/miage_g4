@@ -3,6 +3,34 @@
 
 <h1>Rapport des présences</h1>
 
+<form method="GET" class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <input type="number" name="cours" class="form-control"
+               placeholder="ID cours"
+               value="{{ cours_filter }}">
+    </div>
+
+    <div class="col-md-3">
+        <input type="text" name="etudiant" class="form-control"
+               placeholder="INE étudiant"
+               value="{{ etudiant_filter }}">
+    </div>
+
+    <div class="col-md-3">
+        <select name="statut" class="form-select">
+            <option value="">Statut</option>
+            <option value="PRESENT" {% if statut_filter == "PRESENT" %}selected{% endif %}>Présent</option>
+            <option value="ABSENT" {% if statut_filter == "ABSENT" %}selected{% endif %}>Absent</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <button class="btn btn-primary w-100">Filtrer</button>
+    </div>
+
+</form>
+
 <table class="table table-striped table-bordered">
     <thead class="table-dark">
         <tr>
@@ -30,8 +58,10 @@
     </tbody>
 </table>
 
-<a href="{% url 'rapport_presences_pdf' %}" class="btn btn-danger">
+<a href="{% url 'rapport_presences_pdf' %}?cours={{ cours_filter }}&etudiant={{ etudiant_filter }}&statut={{ statut_filter }}"
+   class="btn btn-danger">
     Télécharger PDF
 </a>
+
 
 {% endblock %}

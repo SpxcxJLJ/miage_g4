@@ -3,6 +3,32 @@
 
 <h1>Rapport des classes</h1>
 
+<form method="GET" class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <input type="text" name="programme" class="form-control"
+               placeholder="Programme (ex: MIAGE)"
+               value="{{ programme_filter }}">
+    </div>
+
+    <div class="col-md-3">
+        <input type="number" name="niveau" class="form-control"
+               placeholder="Niveau (ex: 1)"
+               value="{{ niveau_filter }}">
+    </div>
+
+    <div class="col-md-3">
+        <input type="number" name="annee" class="form-control"
+               placeholder="Année de début (ex: 2025)"
+               value="{{ annee_filter }}">
+    </div>
+
+    <div class="col-md-3">
+        <button class="btn btn-primary w-100">Filtrer</button>
+    </div>
+
+</form>
+
 <table class="table table-striped table-bordered">
     <thead class="table-dark">
         <tr>
@@ -30,8 +56,10 @@
     </tbody>
 </table>
 
-<a href="{% url 'rapport_classes_pdf' %}" class="btn btn-danger">
+<a href="{% url 'rapport_classes_pdf' %}?programme={{ programme_filter }}&niveau={{ niveau_filter }}&annee={{ annee_filter }}"
+   class="btn btn-danger">
     Télécharger PDF
 </a>
+
 
 {% endblock %}

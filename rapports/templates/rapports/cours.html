@@ -3,6 +3,31 @@
 
 <h1>Rapport des cours</h1>
 
+<form method="GET" class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <input type="date" name="date" class="form-control"
+               value="{{ date_filter }}">
+    </div>
+
+    <div class="col-md-3">
+        <input type="text" name="enseignant" class="form-control"
+               placeholder="Enseignant"
+               value="{{ enseignant_filter }}">
+    </div>
+
+    <div class="col-md-3">
+        <input type="text" name="classe" class="form-control"
+               placeholder="Classe"
+               value="{{ classe_filter }}">
+    </div>
+
+    <div class="col-md-3">
+        <button class="btn btn-primary w-100">Filtrer</button>
+    </div>
+
+</form>
+
 <table class="table table-striped table-bordered">
     <thead class="table-dark">
         <tr>
@@ -32,8 +57,10 @@
     </tbody>
 </table>
 
-<a href="{% url 'rapport_cours_pdf' %}" class="btn btn-danger">
+<a href="{% url 'rapport_cours_pdf' %}?date={{ date_filter }}&enseignant={{ enseignant_filter }}&classe={{ classe_filter }}"
+   class="btn btn-danger">
     Télécharger PDF
 </a>
+
 
 {% endblock %}
