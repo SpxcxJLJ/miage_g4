@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Créer une composition</h1>
 
-<form method="POST">
+<h1 class="mb-4">Créer une nouvelle composition</h1>
+
+<form method="POST" class="card p-4">
     {% csrf_token %}
     {{ form.as_p }}
-    <button class="btn btn-primary">Enregistrer</button>
+
+    <button class="btn btn-success mt-3">Créer la composition</button>
 </form>
 
 {% endblock %}

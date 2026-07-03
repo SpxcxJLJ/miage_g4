@@ -1,29 +1,39 @@
 from django import forms
-from .models import Composition, CompositionDetail
-from .external_api.enseignants import get_enseignants
-from .external_api.matieres import get_matieres
+
+from .models import Composition
+from .models import CompositionDetail
+
 
 class CompositionForm(forms.ModelForm):
+
     class Meta:
+
         model = Composition
-        fields = '__all__'
-        
-    
+
+        fields = [
+            "intitule_action",
+            "lieu",
+            "niveau",
+            "public",
+            "effectif",
+            "date_debut",
+            "date_fin",
+        ]
+
+
 class CompositionDetailForm(forms.ModelForm):
-    enseignant_id = forms.ChoiceField(choices=[])
-    matiere_id = forms.ChoiceField(choices=[])
 
     class Meta:
-        model = CompositionDetail
-        fields = "__all__"
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        enseignants = get_enseignants()
-        self.fields["enseignant_id"].choices = [
-            (e["id"], f"{e['nom']} {e['prenom']}") for e in enseignants
-        ]
-        matieres = get_matieres()
-        self.fields["matiere_id"].choices = [
-            (m["id"], f"{m['code_matiere']} - {m['intitule']}") for m in matieres
+        model = CompositionDetail
+
+        fields = [
+            "enseignant_id",
+            "code_matiere",
+            "semestre",
+            "volume_horaire",
+            "heures_enseignement",
+            "heures_greta",
+            "heures_service",
+            "ordre",
         ]

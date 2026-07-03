@@ -1,9 +1,44 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Créer une composition</h2>
-<form method="POST">
+
+<h1 class="mb-4">Ajouter une ligne à {{ compo.intitule_action }}</h1>
+
+<form method="POST" class="card p-4">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-success">Enregistrer</button>
+
+    <div class="mb-3">
+        <label>Enseignant</label>
+        <select name="enseignant_id" class="form-select">
+            {% for e in enseignants %}
+            <option value="{{ e.id }}">
+                {{ e.nom }} {{ e.prenom }} — {{ e.email }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Matière</label>
+        <select name="code_matiere" class="form-select">
+            {% for m in matieres %}
+            <option value="{{ m.code_matiere }}">
+                {{ m.intitule }} ({{ m.code_matiere }})
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+    <label>Volume horaire</label>
+    {{ form.volume_horaire }}
+    </div>
+
+    {{ form.semestre }}
+    {{ form.heures_enseignement }}
+    {{ form.heures_greta }}
+    {{ form.heures_service }}
+    {{ form.ordre }}
+
+    <button class="btn btn-success mt-3">Ajouter</button>
 </form>
+
 {% endblock %}

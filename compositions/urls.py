@@ -1,58 +1,46 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
 
-from .views import *
-
-router = DefaultRouter()
-
-router.register(
-    r"compositions",
-    CompositionViewSet,
-)
-
-router.register(
-    r"composition-details",
-    CompositionDetailViewSet,
+from .views import (
+    composition_create,
+    compositions_list,
+    composition_detail,
+    composition_detail_create,
+    composition_pdf,
 )
 
 urlpatterns = [
 
     path(
-        "compositions/",
+        "",
         compositions_list,
         name="compositions_list",
     ),
 
-    path(
-        "compositions/create/",
-        composition_create,
-        name="composition_create",
-    ),
 
     path(
-        "compositions/detail/create/",
-        composition_detail_create,
-        name="composition_detail_create",
-    ),
-
-    path(
-        "compositions/<int:pk>/",
+        "<int:pk>/",
         composition_detail,
         name="composition_detail",
     ),
 
     path(
-        "compositions/<int:pk>/update/",
-        composition_update,
-        name="composition_update",
+    "create/",
+    composition_create,
+    name="composition_create"
+    ),
+
+    
+    
+    path(
+        "<int:pk>/ajouter/",
+        composition_detail_create,
+        name="composition_detail_create",
     ),
 
     path(
-        "enseignants/",
-        enseignants_list,
-        name="enseignants_list",
+        "<int:pk>/pdf/",
+        composition_pdf,
+        name="composition_pdf",
     ),
 
 ]
-
-urlpatterns += router.urls
